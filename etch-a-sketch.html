@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .flexContainer{
+            display: flex;
+        }
+        .grid-box{
+            height:50px;
+            width: 50px;
+            border: 1px solid black;
+            background-color: yellowgreen;
+
+        }
+       
+    </style>
+</head>
+<body>
+  
+    <script>
+        let flexContainer= document.createElement('div');
+        document.body.appendChild(flexContainer).className="flexContainer";
+        
+        function makeRow(rows,cols){
+            //a for loop within a for loop to create a grid
+            for(let r=0;r<rows;r++){
+            let row=document.createElement('div');
+           for(let c=0;c<cols;c++){
+                let gridbox=document.createElement('div');
+                gridbox.classList.add('grid-box');
+                gridbox.addEventListener('mouseover',()=>{
+                    gridbox.style.backgroundColor='aqua';
+                });
+
+              
+                row.appendChild(gridbox);
+              
+            }
+            flexContainer.appendChild(row).className='grid-row';
+           
+        }
+    }
+        
+       
+makeRow(16,16);
+    
+
+    </script>
+    
+</body>
+</html>
