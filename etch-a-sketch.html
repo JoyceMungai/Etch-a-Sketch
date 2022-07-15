@@ -6,33 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        .flexContainer{
+      .flexContainer{
             display: flex;
+            width: 960px;
+            height: 960px;
         }
+        .wrapper{
+            display: flex;
+            width: 500px;
+            height: 500px;
+        }
+       .row{
+           display: flex;
+       }
+        
         .grid-box{
-            height:50px;
-            width: 50px;
+           flex:1;
             border: 1px solid black;
             background-color: yellowgreen;
+            flex-shrink: 1;
+          width:50px;
+            height: 50px;
 
         }
+        
+        
        
     </style>
 </head>
 <body>
+    <div class="reset">
+        <button id="grid">Shake Etch A Sketch</button>  
+       
+    </div>
+   
   
     <script>
+        let numOfSquares=5;
+       //create container div
         let flexContainer= document.createElement('div');
+        let btn =document.querySelector('#grid');
+        
         document.body.appendChild(flexContainer).className="flexContainer";
         
-        function makeRow(rows,cols){
+        function makeRow(grids){
+           
+            //create wrapper container within flexContainer div
+        let wrapper=document.createElement('div');
+        wrapper.classList.add('wrapper');
+            
             //a for loop within a for loop to create a grid
-            for(let r=0;r<rows;r++){
+            for(let r=0;r<grids;r++){
             let row=document.createElement('div');
-           for(let c=0;c<cols;c++){
+           for(let c=0;c<grids;c++){
+               
                 let gridbox=document.createElement('div');
                 gridbox.classList.add('grid-box');
                 gridbox.addEventListener('mouseover',()=>{
+                    
                     gridbox.style.backgroundColor='aqua';
                 });
 
@@ -40,15 +71,34 @@
                 row.appendChild(gridbox);
               
             }
-            flexContainer.appendChild(row).className='grid-row';
+            wrapper.appendChild(row).className='grid-row';
            
         }
+        flexContainer.appendChild(wrapper);
     }
-        
-       
-makeRow(16,16);
+    makeRow(numOfSquares);
+    btn.addEventListener('click',()=> {
+        let userSquares =Number(prompt("enter number of squares per side less than 100"));
     
-
+     if(userSquares<100){
+       
+         makeRow(userSquares);
+     }else{
+         do{
+            userSquares =Number(prompt("invalid size! enter a less than 100"));
+            }
+            while(userSquares>100){
+                makeRow(userSquares);
+            }
+            }
+            const wrapper=document.querySelector('.wrapper');
+         wrapper.remove();
+    });
+    
+     
+    
+  
+     
     </script>
     
 </body>
