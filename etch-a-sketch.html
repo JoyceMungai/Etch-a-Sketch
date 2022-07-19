@@ -6,97 +6,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-      .flexContainer{
+        .flex-container{
             display: flex;
-            width: 960px;
-            height: 960px;
+            justify-content: center;
+            align-items: center;
+          
+            width: 700px;
         }
-        .wrapper{
-            display: flex;
+        .content{
+     display: grid;
+    align-items: center;
+    justify-content: center;
+    margin:auto;
+    border: black solid 8px;
+    height: 700px;
+    width: 800px;
+  
+        }
+        .board-class{
+            display: grid;
             width: 500px;
             height: 500px;
+            background-color: red;
+            justify-content: center;
+            align-items: center;
+            border: black solid 10px;
         }
-       .row{
-           display: flex;
-       }
-        
-        .grid-box{
-           flex:1;
-            border: 1px solid black;
-            background-color: yellowgreen;
-            flex-shrink: 1;
-          width:50px;
-            height: 50px;
+     
+     .board {
+        display: grid;
+        justify-content: center;
+        row-gap: 5px;
+        column-gap: 5px;
+        border: black solid 10px;
+        width: 450px;
+       height: 450px;
+        }
+   .buttons{
+        border: none;
+        color: white;
+        padding: 16px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 2px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        }
+    #black:hover{
+        background-color: black;
+        color:white
+    }
+    #gray:hover{
+        background-color: #e7e7e7;
+    }
+    #random{
+        background: linear-gradient(0.25turn,#f65cfc,#ebf8e1,#583cf6);
+    }
+    #random:hover{
+        background: linear-gradient(0.25turn,#20ff02,#ebf8e1,#aecc03);
+    }
+   
 
-        }
-        
-        
-       
+            
     </style>
 </head>
 <body>
-    <div class="reset">
-        <button id="grid">Shake Etch A Sketch</button>  
-       
+    <div class="flex-container">
+        <div class="=content">
+            <button id ="reset">Shake Etch A Sketch</button>
+            <div class ="board-class">
+                <div class ="board"></div>
+            </div>
+            <div class ="buttons">
+                <button id="black" onclick="changeColor('black')">Black</button>
+                <button id ="gray"onclick="changeColor('gray')">Gray</button>
+                <button  id ="random" onclick="changeColor('random')">Random</button>
+                <button onclick="changeColor('white')">Eraser</button>
+                <button onclick="reset()">Reset</button>
+               
+            </div>
+
+        </div>
+
     </div>
    
-  
-    <script>
-        let numOfSquares=5;
-       //create container div
-        let flexContainer= document.createElement('div');
-        let btn =document.querySelector('#grid');
-        
-        document.body.appendChild(flexContainer).className="flexContainer";
-        
-        function makeRow(grids){
-           
-            //create wrapper container within flexContainer div
-        let wrapper=document.createElement('div');
-        wrapper.classList.add('wrapper');
-            
-            //a for loop within a for loop to create a grid
-            for(let r=0;r<grids;r++){
-            let row=document.createElement('div');
-           for(let c=0;c<grids;c++){
-               
-                let gridbox=document.createElement('div');
-                gridbox.classList.add('grid-box');
-                gridbox.addEventListener('mouseover',()=>{
-                    
-                    gridbox.style.backgroundColor='aqua';
-                });
 
-              
-                row.appendChild(gridbox);
-              
-            }
-            wrapper.appendChild(row).className='grid-row';
+    <script>
+
+      
+        let shakeButton=document.querySelector('#reset');
+        let numOfSquares=16;
+        let color='black';
+
+        function makeGrid(grids){
+         let board = document.querySelector('.board');
+         board.innerHTML = "" 
+        //let box= document.querySelectorAll('div');
+        //box.forEach((div)=>div.remove());
+        board.style.gridTemplateColumns=`repeat(${grids}, 1fr)`;
+       board.style.gridTemplateRows=`repeat(${grids}, 1fr)`;
+
+        let size=grids*grids;
+        for (let i=0;i<size;i++){
+            let box=document.createElement('div');
+            box.classList.add('box');
+            box.style.backgroundColor='white';
+            board.appendChild(box);
+            box.addEventListener('mouseover',chooseColor);
            
+          
         }
-        flexContainer.appendChild(wrapper);
-    }
-    makeRow(numOfSquares);
-    btn.addEventListener('click',()=> {
-        let userSquares =Number(prompt("enter number of squares per side less than 100"));
-    
-     if(userSquares<100){
-       
-         makeRow(userSquares);
-     }else{
+
+        }
+     makeGrid(numOfSquares);
+ shakeButton.addEventListener('click',()=>{
+     
+    let userSquares=prompt("enter number of squares per side less than 100");
+    if (userSquares>=2 && userSquares<=100){
+        makeGrid(userSquares);
+    }else{
          do{
             userSquares =Number(prompt("invalid size! enter a less than 100"));
             }
             while(userSquares>100){
-                makeRow(userSquares);
+                makeGrid(userSquares);
             }
             }
-            const wrapper=document.querySelector('.wrapper');
-         wrapper.remove();
-    });
+ });
+ function chooseColor(){
+     if (color==='random'){
+         this.style.backgroundColor="hsl(" + Math.random() * 360 + ",100%,50%)";
+
+     }else{
+        this.style.backgroundColor= color;
+
+     }
     
+ }
      
-    
+  function changeColor(choice){
+    color=choice;
+  }
+
+  function reset(){
+   
+     window.location.reload();
+
+  }
   
      
     </script>
